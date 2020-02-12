@@ -34,19 +34,21 @@ class App extends Component {
 
     sunset: '',
 
-    cloudCover: ''
+    cloudCover: '',
+
+    selectWeather: false
   }
 
 
-onSubmit = (location) => {
+onSubmit = (e) => {
+e.preventDefault();
+let location = document.getElementById('locationInput').value;
+console.log(location);
 
-this.setState({
-  location: location.target.value
-})
-
-axios.get(API_URL + this.state.location + process.env.REACT_APP_API_KEY)
+axios.get(API_URL + location + process.env.REACT_APP_API_KEY)
 .then(res => {
   this.setState({
+    selectWeather: true,
     cityName: res.data.name,
     data: res.data,
     description: res.data.weather[0].description,
@@ -61,6 +63,7 @@ axios.get(API_URL + this.state.location + process.env.REACT_APP_API_KEY)
 
   console.log(this.state.data);
   console.log(this.state.sunrise);
+  
 })
 
 
@@ -69,28 +72,69 @@ axios.get(API_URL + this.state.location + process.env.REACT_APP_API_KEY)
 
   render() {
 
+    const weatherChosen = this.state.selectWeather;
+
+    if(weatherChosen === true){
+      return (
+        <div className="App">
+       
+        <form onSubmit={this.onSubmit}>
+                <input type='text' id="locationInput"/>
+                  <Button   variant="secondary" size="sm" type="submit">
+              Large button
+            </Button>
+        
+
+      <Body 
+      display={this.state.cityName}
+      cloudCover={this.state.cloudCover}
+      sunrise={this.state.sunrise}
+      sunset={this.state.sunset}
+      temp={this.state.tempC}
+      description={this.state.description}
+    />
+        </form >
+               
+             
+        
+               </div>) }
+    else
+    {
+      return (
+   
+        <div className="App">
+       
+        <form onSubmit={this.onSubmit}>
+                <input type='text'  id="locationInput"/>
+                  <Button   variant="secondary" size="sm" type="submit">
+              Large button
+            </Button>
+
+        </form >
+               
+             
+        
+               </div>
+
+
+
+
+      )
+    }
+
+    
+    
     return (
       <div className="App">
-<form onClick={this.onSubmit}>
-        <input type='text' />
+       
+<form onSubmit={this.onSubmit}>
+        <input type='text' id="locationInput"/>
           <Button   variant="secondary" size="sm" type="submit">
       Large button
     </Button>
     </form >
        
-        <Body 
-        display={this.state.cityName}
-        cloudCover={this.state.cloudCover}
-        sunrise={this.state.sunrise}
-        sunset={this.state.sunset}
-        temp={this.state.tempC}
-        description={this.state.description}
-
-        
-        
-        
-        
-        />
+     
 
       </div>
     );
