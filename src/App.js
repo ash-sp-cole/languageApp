@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import Body from './Components/Body/Body';
 import './app.css';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
 const API_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
-console.log(process.env.REACT_APP_API_KEY);
+
 
 
 
@@ -13,9 +14,11 @@ class App extends Component {
 
   state = {
 
+    input:'',
+
     data: [],
 
-    location: 'London',
+    location: '',
 
     cityName: '',
 
@@ -34,48 +37,46 @@ class App extends Component {
     cloudCover: ''
   }
 
-  componentDidMount() {
 
-    axios.get(API_URL + this.state.location + process.env.REACT_APP_API_KEY)
-      .then(res => {
-        this.setState({
-          cityName: res.data.name,
-          data: res.data,
-          description: res.data.weather[0].description,
-          mainWeather: res.data.weather[0].main,
-          temp: res.data.main.temp,
-          tempC: parseFloat(res.data.main.temp - 273.15).toFixed(2),
-          sunrise: new Date(res.data.sys.sunrise * 1000).toUTCString(),
-           sunset: new Date(res.data.sys.sunset * 1000).toUTCString(),
-           cloudCover: res.data.clouds.all
-        })
+onSubmit = (location) => {
 
+this.setState({
+  location: location.target.value
+})
 
-        console.log(this.state.data);
-        console.log(this.state.sunrise);
-      })
-
-
-  }
+axios.get(API_URL + this.state.location + process.env.REACT_APP_API_KEY)
+.then(res => {
+  this.setState({
+    cityName: res.data.name,
+    data: res.data,
+    description: res.data.weather[0].description,
+    mainWeather: res.data.weather[0].main,
+    temp: res.data.main.temp,
+    tempC: parseFloat(res.data.main.temp - 273.15).toFixed(2),
+    sunrise: new Date(res.data.sys.sunrise * 1000).toUTCString(),
+     sunset: new Date(res.data.sys.sunset * 1000).toUTCString(),
+     cloudCover: res.data.clouds.all
+  })
 
 
-  eventChangeHandler = (e) => {
+  console.log(this.state.data);
+  console.log(this.state.sunrise);
+})
 
-    this.setState({
-      input: e.target.value
-    })
 
-  }
+}
 
 
   render() {
 
     return (
       <div className="App">
-
-        <input type='text'
-          onChange={this.eventChangeHandler}
-        />
+<form onClick={this.onSubmit}>
+        <input type='text' />
+          <Button   variant="secondary" size="sm" type="submit">
+      Large button
+    </Button>
+    </form >
        
         <Body 
         display={this.state.cityName}
