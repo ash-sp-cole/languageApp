@@ -1,38 +1,98 @@
 import React, { Component } from 'react';
-import Search from './Components/Search/Search';
+// import Search from './Components/Search/Search';
 import Body from './Components/Body/Body';
 import './app.css';
-class App extends Component {
-  
-  state= {
+import axios from 'axios';
+const API_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
+const API_KEY = "&appid=b9d3f3fe6952b8245d50649053bcab9b";
 
-    input:''
+
+
+class App extends Component {
+
+
+  state = {
+
+    data: [],
+
+    location: 'Hamburg',
+
+    cityName: '',
+
+    mainWeather: '',
+
+    description: '',
+
+    temp: '',
+
+    tempC: '',
+
+    sunrise: '',
+
+    sunset: '',
+
+    cloudCover: ''
+  }
+
+  componentDidMount() {
+
+    axios.get(API_URL + this.state.location + API_KEY)
+      .then(res => {
+        this.setState({
+          cityName: res.data.name,
+          data: res.data,
+          description: res.data.weather[0].description,
+          mainWeather: res.data.weather[0].main,
+          temp: res.data.main.temp,
+          tempC: parseFloat(res.data.main.temp - 273.15).toFixed(2),
+          sunrise: new Date(res.data.sys.sunrise * 1000).toUTCString(),
+           sunset: new Date(res.data.sys.sunset * 1000).toUTCString(),
+           cloudCover: res.data.clouds.all
+        })
+
+
+        console.log(this.state.data);
+        console.log(this.state.sunrise);
+      })
+
 
   }
+
 
   eventChangeHandler = (e) => {
 
-this.setState({
-  input: e.target.value
-})
+    this.setState({
+      input: e.target.value
+    })
 
   }
 
-  
-  render(){
-  
-  return (
-    <div className="App">
 
-      <input type ='text' 
-    onChange= {this.eventChangeHandler} 
-   />
-    
-<Search  onchange={this.eventChangeHandler}   >  {this.state.input}    </Search>
-<Body display={this.state.input}/>
-   
-    </div>
-  );
-}
+  render() {
+
+    return (
+      <div className="App">
+
+        <input type='text'
+          onChange={this.eventChangeHandler}
+        />
+       
+        <Body 
+        display={this.state.cityName}
+        cloudCover={this.state.cloudCover}
+        sunrise={this.state.sunrise}
+        sunset={this.state.sunset}
+        temp={this.state.tempC}
+        description={this.state.description}
+
+        
+        
+        
+        
+        />
+
+      </div>
+    );
+  }
 }
 export default App;
