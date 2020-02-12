@@ -4,7 +4,7 @@ import Body from './Components/Body/Body';
 import './app.css';
 import axios from 'axios';
 const API_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
-const API_KEY = "&appid=b9d3f3fe6952b8245d50649053bcab9b";
+console.log(process.env.REACT_APP_API_KEY);
 
 
 
@@ -15,7 +15,7 @@ class App extends Component {
 
     data: [],
 
-    location: 'Hamburg',
+    location: 'London',
 
     cityName: '',
 
@@ -36,7 +36,7 @@ class App extends Component {
 
   componentDidMount() {
 
-    axios.get(API_URL + this.state.location + API_KEY)
+    axios.get(API_URL + this.state.location + process.env.REACT_APP_API_KEY)
       .then(res => {
         this.setState({
           cityName: res.data.name,
