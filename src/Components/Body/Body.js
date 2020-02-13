@@ -1,7 +1,69 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
-const Body = (props) => {
+class Body extends Component {
+
+
+  state = {
+
+    input:'',
+
+    data: [],
+
+    location: '',
+
+    cityName: '',
+
+    mainWeather: '',
+
+    description: '',
+
+    temp: '',
+
+    tempC: '',
+
+    sunrise: '',
+
+    sunset: '',
+
+    cloudCover: '',
+
+    selectWeather: true,
+
+    testChild: ''
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    let location = e;
+    console.log(location);
+    
+    axios.get(API_URL + location + process.env.REACT_APP_API_KEY)
+    .then(res => {
+      this.setState({
+        selectWeather: true,
+        cityName: res.data.name,
+        data: res.data,
+        description: res.data.weather[0].description,
+        mainWeather: res.data.weather[0].main,
+        temp: res.data.main.temp,
+        tempC: parseFloat(res.data.main.temp - 273.15).toFixed(2),
+        sunrise: new Date(res.data.sys.sunrise * 1000).toUTCString(),
+         sunset: new Date(res.data.sys.sunset * 1000).toUTCString(),
+         cloudCover: res.data.clouds.all
+      })
+    
+    
+      console.log(this.state.data);
+      console.log(this.state.sunrise);
+      
+    })
+    
+    
+    }
+
+
+
 return(
 
 <div >

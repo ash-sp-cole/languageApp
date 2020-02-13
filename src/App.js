@@ -42,36 +42,21 @@ class App extends Component {
 
     cloudCover: '',
 
-    selectWeather: true
+    selectWeather: true,
+
+    testChild: ''
   }
 
 
-onSubmit = (e) => {
-e.preventDefault();
-let location = document.getElementById('locationInput').value;
-console.log(location);
 
-axios.get(API_URL + location + process.env.REACT_APP_API_KEY)
-.then(res => {
+
+
+callbackFunction = (childData) => {
+
   this.setState({
-    selectWeather: true,
-    cityName: res.data.name,
-    data: res.data,
-    description: res.data.weather[0].description,
-    mainWeather: res.data.weather[0].main,
-    temp: res.data.main.temp,
-    tempC: parseFloat(res.data.main.temp - 273.15).toFixed(2),
-    sunrise: new Date(res.data.sys.sunrise * 1000).toUTCString(),
-     sunset: new Date(res.data.sys.sunset * 1000).toUTCString(),
-     cloudCover: res.data.clouds.all
+    testChild : childData
   })
-
-
-  console.log(this.state.data);
-  console.log(this.state.sunrise);
-  
-})
-
+console.log(this.state.testChild)
 
 }
 
@@ -94,7 +79,7 @@ axios.get(API_URL + location + process.env.REACT_APP_API_KEY)
         
 
       <Body 
-      display={this.state.cityName}
+      display={this.state.testChild}
       cloudCover={this.state.cloudCover}
       sunrise={this.state.sunrise}
       sunset={this.state.sunset}
@@ -103,7 +88,7 @@ axios.get(API_URL + location + process.env.REACT_APP_API_KEY)
     />
         </form >
                
-            <SearchGoogle/>
+            <SearchGoogle parentCallBack={this.callbackFunction}/>
         
                </div>) }
     else
