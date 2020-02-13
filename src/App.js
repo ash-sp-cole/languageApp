@@ -5,14 +5,15 @@ import './app.css';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import algoliasearch from 'algoliasearch';
-
+import { createStore } from 'redux';
 import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
 import testSearch from './searchAng';
 import SearchGoogle from './searchAng';
 
-const searchClient = algoliasearch('SRMMS6XOSZ','084420dcd0e16e74a020a2fef35ec80f');
-const API_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
 
+
+
+ const store = createStore(reducer);
 
 
 class App extends Component {
@@ -79,7 +80,7 @@ console.log(this.state.testChild)
         
 
       <Body 
-      display={this.state.testChild}
+     location={this.state.testChild}
       cloudCover={this.state.cloudCover}
       sunrise={this.state.sunrise}
       sunset={this.state.sunset}

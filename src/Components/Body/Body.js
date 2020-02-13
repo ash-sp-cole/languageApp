@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
+import axios from 'axios';
+
+const API_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
+
+
 class Body extends Component {
 
 
@@ -10,7 +15,7 @@ class Body extends Component {
 
     data: [],
 
-    location: '',
+    location: {},
 
     cityName: '',
 
@@ -64,18 +69,21 @@ class Body extends Component {
 
 
 
-return(
+  render()
+  {
 
-<div >
+  return(
+
+<div>
 <Jumbotron>
 
 <h1>  Here is the weather for your city :</h1>
-<h2 style={{textAlign:'center'}}>{props.display}</h2>
-<h2 style={{textAlign:'center'}}>{props.description}</h2>
-  <h2 style={{textAlign:'center'}}>{props.temp}*C</h2>
-<h4> Sunrise (GMT) : {props.sunrise}</h4>
-<h4>SunSet (GMT) : {props.sunset}</h4>
-<h2 style={{textAlign:'center'}}>Cloud cover right now is : {props.cloudCover}% </h2>
+<h2 style={{textAlign:'center'}}>{this.state.cityName}</h2>
+<h2 style={{textAlign:'center'}}>{this.state.description}</h2>
+  <h2 style={{textAlign:'center'}}>{this.state.tempC}*C</h2>
+{/* <h4> Sunrise (GMT) : {props.sunrise}</h4> */}
+<h4>SunSet (GMT) : {props.loaction}</h4>
+<h2 style={{textAlign:'center'}}>Cloud cover right now is : {this.state.cloudCover}% </h2>
 
 
 
@@ -85,5 +93,5 @@ return(
 
 )
 }
-
+}
 export default Body ;
