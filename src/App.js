@@ -4,8 +4,14 @@ import Body from './Components/Body/Body';
 import './app.css';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-const API_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
+import algoliasearch from 'algoliasearch';
 
+import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
+import testSearch from './searchAng';
+import SearchGoogle from './searchAng';
+
+const searchClient = algoliasearch('SRMMS6XOSZ','084420dcd0e16e74a020a2fef35ec80f');
+const API_URL = "https://api.openweathermap.org/data/2.5/weather?q=";
 
 
 
@@ -36,7 +42,7 @@ class App extends Component {
 
     cloudCover: '',
 
-    selectWeather: false
+    selectWeather: true
   }
 
 
@@ -78,6 +84,8 @@ axios.get(API_URL + location + process.env.REACT_APP_API_KEY)
       return (
         <div className="App">
        
+
+
         <form onSubmit={this.onSubmit}>
                 <input type='text' id="locationInput"/>
                   <Button   variant="secondary" size="sm" type="submit">
@@ -95,7 +103,7 @@ axios.get(API_URL + location + process.env.REACT_APP_API_KEY)
     />
         </form >
                
-             
+            <SearchGoogle/>
         
                </div>) }
     else
@@ -141,3 +149,8 @@ axios.get(API_URL + location + process.env.REACT_APP_API_KEY)
   }
 }
 export default App;
+
+
+// 084420dcd0e16e74a020a2fef35ec80f
+
+// SRMMS6XOSZ
