@@ -12,8 +12,9 @@ import SearchGoogle from './searchAng';
 
 
 
-
- const store = createStore(reducer);
+const initialState = {
+  tech: 'react'
+}
 
 
 class App extends Component {
